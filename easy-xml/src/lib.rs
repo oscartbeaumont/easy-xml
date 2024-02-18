@@ -6,7 +6,6 @@ pub type Namespace = xml::namespace::Namespace;
 pub type XmlVersion = xml::common::XmlVersion;
 
 use std::{
-    borrow::Borrow,
     cell::RefCell,
     rc::{Rc, Weak},
 };
@@ -287,15 +286,6 @@ impl<T: XmlSerialize> XmlSerialize for std::sync::Arc<T> {
         Self: Sized,
     {
         self.as_ref().serialize(element);
-    }
-}
-
-impl<T: XmlSerialize> XmlSerialize for std::cell::Cell<T> {
-    fn serialize(&self, element: &mut XmlElement)
-    where
-        Self: Sized,
-    {
-        self.borrow().serialize(element);
     }
 }
 
