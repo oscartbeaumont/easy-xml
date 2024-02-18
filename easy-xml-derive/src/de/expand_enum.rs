@@ -24,7 +24,7 @@ pub fn expand_derive_enum(
             match element {
                 easy_xml::XmlElement::Text(text) => match text.as_str() {
                     #get_from_text
-                    _ => return Err(easy_xml::de::Error::Other("".to_string())),
+                    _ => return Err(easy_xml::de::Error::Other("failed to match text".to_string())),
                 },
                 easy_xml::XmlElement::Node(node) => {
                   let node = &*node.borrow();
@@ -32,11 +32,11 @@ pub fn expand_derive_enum(
 
                   #get_from_node
 
-                  return Err(easy_xml::de::Error::Other("".to_string()))
+                  return Err(easy_xml::de::Error::Other(format!("field '{name:?}' not matched")))
                 },
-                easy_xml::XmlElement::Whitespace(_) => {return Err(easy_xml::de::Error::Other("".to_string()))},
-                easy_xml::XmlElement::Comment(_) => {return Err(easy_xml::de::Error::Other("".to_string()))},
-                easy_xml::XmlElement::CData(_) => {return Err(easy_xml::de::Error::Other("".to_string()))},
+                easy_xml::XmlElement::Whitespace(_) => {return Err(easy_xml::de::Error::Other("match whitespace instead of node".to_string()))},
+                easy_xml::XmlElement::Comment(_) => {return Err(easy_xml::de::Error::Other("match comment instead of node".to_string()))},
+                easy_xml::XmlElement::CData(_) => {return Err(easy_xml::de::Error::Other("match cdata instead of node".to_string()))},
             }
         }
       }
